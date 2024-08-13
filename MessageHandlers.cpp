@@ -15,7 +15,7 @@ void handleGetName(WiFiClient& client) {
 }
 
 void handleActivated(WiFiClient& client) {
-    Serial.println("Dispositivo Accionado");
+    Serial.println("Dispositivo Accionado Localmente");
     client.stop();
 }
 

@@ -26,7 +26,9 @@
 // Ruta del WebSocket
 #define WEBSOCKET_PATH "/ws"
 
+#define ID_DEVICE 1
+
 // Nombre del dispositivo
-#define NAME_DEVICE "Puerta 1"
+#define NAME_DEVICE "Device-A"
 
 #endif
