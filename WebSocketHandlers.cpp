@@ -1,5 +1,6 @@
 #include "WebSocketHandlers.h"
 #include "Config.h"
+#include "DeviceHandlers.h"
 
 void handleWebSocketMessage(const String& message) {
     // Buscar el separador ": "
@@ -15,8 +16,8 @@ void handleWebSocketMessage(const String& message) {
             // Comparar el nombre del dispositivo
             if (deviceName == NAME_DEVICE) {
                 if (action == "Activating") {
+                    deviceActivated();
                     Serial.println("Dispositivo Accionado Remotamente");
-                    // Realiza otras acciones necesarias aquí
                 } else {
                     Serial.println("Acción no reconocida");
                 }

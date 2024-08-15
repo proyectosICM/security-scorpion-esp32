@@ -16,7 +16,6 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
       //Serial.printf("Mensaje recibido (longitud %d): %s\n", length, payload);
       if (length > 0) {
         //Serial.println("Mensaje procesado correctamente.");
-        // Aquí podrías llamar a funciones de WebSocketHandlers
         String message((char*)payload, length);
         handleWebSocketMessage(message);
       } else {

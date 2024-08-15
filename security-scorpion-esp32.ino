@@ -7,12 +7,7 @@
 
 void setup() {
   Serial.begin(115200);
-
-   // Configurar y conectar a WiFi
     setupWiFi();
-
-    // Configurar WebSocket
-
 }
 
 void loop() {

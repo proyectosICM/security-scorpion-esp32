@@ -5,7 +5,7 @@
 #include <WebSocketsClient.h>
 
 WiFiServer server(LOCAL_SERVER_PORT);
-WebSocketsClient webSocket;  // Definición de webSocket
+WebSocketsClient webSocket; 
 
 void setupWiFi() {
     if (!WiFi.config(LOCAL_IP, GATEWAY, SUBNET, DNS1, DNS2)) {

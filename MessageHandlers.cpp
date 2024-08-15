@@ -3,6 +3,7 @@
 #include <map>
 #include <functional>
 #include "Config.h"
+#include "DeviceHandlers.h"
 
 void handleIsConnect(WiFiClient& client) {
     Serial.println("Cliente conectado");
@@ -15,6 +16,7 @@ void handleGetName(WiFiClient& client) {
 }
 
 void handleActivated(WiFiClient& client) {
+    deviceActivated();
     Serial.println("Dispositivo Accionado Localmente");
     client.stop();
 }
@@ -44,9 +46,6 @@ void handleClient() {
             if (client.available()) {
                 String message = client.readStringUntil('\n');
                 message.trim();
-
-                Serial.print("Mensaje recibido: ");
-                Serial.println(message);
 
                 auto handler = messageHandlers.find(message);
                 if (handler != messageHandlers.end()) {

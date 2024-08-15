@@ -7,7 +7,7 @@
 #include <WebSocketsClient.h>
 #include "Config.h"
 
-extern WebSocketsClient webSocket; // Declaración externa
+extern WebSocketsClient webSocket;
 
 void setupWiFi();
 WiFiServer& getServer();
