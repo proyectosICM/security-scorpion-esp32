@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include "WiFiConfig.h"
 #include "WebSocketHandlers.h"
+#include "DeviceHandlers.h"
 
 void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
   switch (type) {

@@ -1,16 +1,36 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+/*****************************/
+/* Configuracion de pines */
+#define RESTART_BUTTON_PIN 12
+
+// Led para confirmar activacion
+#define LED_PIN 5
+
+// Led verde
+#define LED_GREEN 7
+
+// Led amarillo
+#define LED_YELLOW 8
+
+// Led rojo
+#define LED_RED 9
+
+/* Fin de configuracion de pines*/
+/*****************************/
+
 // Configuración de WiFi
 #define WIFI_SSID "www.icm.com"
 #define WIFI_PASSWORD "Dakar*2024"
 
 // Identificación del dispositivo
-#define ID_DEVICE 1
-#define NAME_DEVICE "Device-A" // Nombre Original del dispositivo
+#define ID_DEVICE 1L  
+
+#define NAME_DEVICE_DEFAULT "Device-B"
+#define LOCAL_IP_DEFAULT IPAddress(192, 168, 1, 100)
 
 // Configuración de IP estática
-#define LOCAL_IP IPAddress(192, 168, 1, 100)
 #define GATEWAY IPAddress(192, 168, 1, 1)
 #define SUBNET IPAddress(255, 255, 255, 0)
 
