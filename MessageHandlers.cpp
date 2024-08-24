@@ -5,7 +5,7 @@
 #include <functional>
 #include "DeviceHandlers.h"
 #include "config.h"
-
+#include "EepromManager.h"
 
 void handleIsConnect(WiFiClient& client) {
   Serial.println("Cliente conectado");

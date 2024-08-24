@@ -2,6 +2,7 @@
 #include "ApiConfig.h"
 #include "MessageHandlers.h"
 #include "DeviceHandlers.h"
+#include "EepromManager.h"
 
 void setup() {
   Serial.begin(115200);

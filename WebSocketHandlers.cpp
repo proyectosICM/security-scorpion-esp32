@@ -1,6 +1,7 @@
 #include "WebSocketHandlers.h"
 #include "DeviceHandlers.h"
 #include <EEPROM.h>
+#include "EepromManager.h"
 
 void handleWebSocketMessage(const String& message) {
 

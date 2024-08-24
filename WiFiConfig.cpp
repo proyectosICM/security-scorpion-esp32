@@ -5,7 +5,7 @@
 #include <HTTPClient.h>
 #include <EEPROM.h>
 #include "DeviceHandlers.h"
-
+#include "EepromManager.h"
 
 WiFiServer server(LOCAL_SERVER_PORT);
 WebSocketsClient webSocket;

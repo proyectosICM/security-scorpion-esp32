@@ -46,4 +46,22 @@
 #define WEBSOCKET_SERVER_HOST "samloto.com"
 #define WEBSOCKET_SERVER_PORT 7094
 
+/*****************************/
+/* Configuración de la API */
+
+#define API_SERVER_HOST "samloto.com"
+
+#define API_PATH "https://"
+
+// Puerto del servidor API
+#define API_SERVER_PORT 4015
+
+#define API_BASE_PATH API_PATH + API_SERVER_HOST + "/api/devices/"
+
+// Ruta base de la API
+#define API_BASE_PATH2 "/api/devices/"
+
+/* Fin de Configuración de la API */
+/*****************************/
+
 #endif

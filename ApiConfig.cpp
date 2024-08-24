@@ -5,6 +5,7 @@
 #include <EEPROM.h>
 #include <WiFi.h>
 #include "Config.h"
+#include "EepromManager.h"
 
 void updateDeviceConfig() {
   if (WiFi.status() == WL_CONNECTED) {
