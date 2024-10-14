@@ -21,5 +21,5 @@ void setup() {
 
 void loop() {
   handleClient();
-  handleWebSocket(webSocket);
+  handleWeb1Socket(webSocket);
 }

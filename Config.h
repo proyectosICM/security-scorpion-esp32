@@ -27,7 +27,7 @@
 // Identificación del dispositivo
 #define ID_DEVICE 1L  
 
-#define NAME_DEVICE_DEFAULT "Device-B"
+#define NAME_DEVICE_DEFAULT "Device-A"
 #define LOCAL_IP_DEFAULT IPAddress(192, 168, 1, 100)
 
 // Configuración de IP estática
