@@ -2,64 +2,56 @@
 #define CONFIG_H
 
 /*****************************/
-/* Configuracion de pines */
+/* Pin Configuration */
 #define RESTART_BUTTON_PIN 12
 
-// Led para confirmar activacion
+// LED to confirm activation
 #define LED_PIN 5
-
-// Led verde
 #define LED_GREEN 7
-
-// Led amarillo
 #define LED_YELLOW 8
-
-// Led rojo
 #define LED_RED 9
 
-/* Fin de configuracion de pines*/
+/* End of pin configuration */
 /*****************************/
 
-// Configuración de WiFi
-#define WIFI_SSID "www.icm.com"
-#define WIFI_PASSWORD "Dakar*2024"
-
-// Identificación del dispositivo
-#define ID_DEVICE 1L  
-
-#define NAME_DEVICE_DEFAULT "Device-A"
+// Device Identification
+#define ID_DEVICE 1L
+#define NAME_DEVICE_DEFAULT "Device-Z"
 #define LOCAL_IP_DEFAULT IPAddress(192, 168, 1, 100)
 
-// Configuración de IP estática
+// WiFi Configuration
+#define WIFI_SSID "www.icm.com"
+#define WIFI_PASSWORD "Dakar*2024"
 #define GATEWAY IPAddress(192, 168, 1, 1)
 #define SUBNET IPAddress(255, 255, 255, 0)
 
-// Servidores DNS
-#define DNS1 IPAddress(8, 8, 8, 8)  // DNS primario
-#define DNS2 IPAddress(8, 8, 4, 4)  // DNS secundario
+// DNS Servers
+#define DNS1 IPAddress(8, 8, 8, 8)  // Primary DNS
+#define DNS2 IPAddress(8, 8, 4, 4)  // Secundary DNS
 
-// Puerto del servidor local
+// Local Server Port
 #define LOCAL_SERVER_PORT 82
 
-// Configuración del WebSocket
+// WebSocket Configuration
 #define WEBSOCKET_PATH "/ws"
 #define WEBSOCKET_SERVER_HOST "samloto.com"
 #define WEBSOCKET_SERVER_PORT 7094
 
 /*****************************/
-/* Configuración de la API */
+/* API Configuration */
+#define API_PATH "https://"
 
 #define API_SERVER_HOST "samloto.com"
 
-#define API_PATH "https://"
-
-// Puerto del servidor API
+// Puerto del Servidor API
 #define API_SERVER_PORT 4015
 
-#define API_BASE_PATH API_PATH + API_SERVER_HOST + "/api/devices/"
+// Convertir el número del puerto a cadena
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
 
-// Ruta base de la API
-#define API_BASE_PATH2 "/api/devices/"
+#define API_BASE_PATH API_PATH API_SERVER_HOST ":" TOSTRING(API_SERVER_PORT) "/api/"
+#define API_DEVICES_PATH API_BASE_PATH "devices"
 
 /* Fin de Configuración de la API */
 /*****************************/

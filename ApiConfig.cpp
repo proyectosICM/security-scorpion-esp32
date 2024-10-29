@@ -11,7 +11,8 @@ void updateDeviceConfig() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
 
-    String apiEndpoint = "https://samloto.com:4015/api/devices/" + String(ID_DEVICE);
+    String apiEndpoint = String(API_DEVICES_PATH) + "/" + String(ID_DEVICE);
+
     http.begin(apiEndpoint);
     http.setTimeout(5000);
 
@@ -19,7 +20,11 @@ void updateDeviceConfig() {
     if (httpCode == HTTP_CODE_OK) {
       String payload = http.getString();
       DynamicJsonDocument doc(1024);
-      deserializeJson(doc, payload);
+      DeserializationError error = deserializeJson(doc, payload);
+      if (error) {
+        Serial.println("Error deserializing JSON: " + String(error.c_str()));
+        return;
+      }
 
       int apiId = doc["id"];
       String apiNameDevice = doc["nameDevice"];
@@ -32,24 +37,22 @@ void updateDeviceConfig() {
       apiIp.fromString(apiIpLocal);
 
       if (apiId != EEPROM.read(0) || apiNameDevice != currentNameDevice || apiIp != currentIpLocal) {
-        // Actualizar EEPROM con nuevos valores del API
+        // Update EEPROM with new values from the API
         EEPROM.write(0, apiId);
         storeDeviceName(apiNameDevice);
         storeIpAddress(apiIp);
 
-        Serial.println("Configuración actualizada desde el API. Reiniciando...");
+        Serial.println("Configuration updated from the API. Restarting...");
 
-        // Reiniciar dispositivo para aplicar la nueva configuración
         ESP.restart();
       } else {
-        Serial.println("Configuración del dispositivo está actualizada.");
+        Serial.println("Device configuration is up to date.");
       }
     } else {
-      Serial.println("Error al obtener datos del API. Continuando con la operación normal.");
+      Serial.println("Error retrieving data from the API. Continuing with normal operation.");
     }
-
-    http.end();  // Cerrar conexión HTTP
+    http.end();  
   } else {
-    Serial.println("No hay conexión WiFi. Continuando con la operación normal.");
+    Serial.println("No WiFi connection. Continuing with normal operation.");
   }
 }

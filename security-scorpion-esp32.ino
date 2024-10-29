@@ -7,7 +7,7 @@
 void setup() {
   Serial.begin(115200);
 
-  // Iniciar EEPROM y configurar valores por defecto si es necesario
+  // Initialize EEPROM and set default values if necessary
   EEPROM.begin(512);
   if (EEPROM.read(0) == 255) {
     initializeDeviceSettings();
@@ -21,5 +21,5 @@ void setup() {
 
 void loop() {
   handleClient();
-  handleWeb1Socket(webSocket);
+  handleWebSocket(webSocket);
 }
