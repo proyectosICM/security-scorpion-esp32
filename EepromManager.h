@@ -9,8 +9,12 @@ void resetToDefaultSettings();
 
 String getStoredDeviceName();
 IPAddress getStoredIpAddress();
+String getStoredSSID();
+String getStoredPassword();
 
 void storeDeviceName(String name);
 void storeIpAddress(IPAddress ip);
+void storeSSID(String ssid); 
+void storePassword(String password);
 
 #endif

@@ -7,17 +7,21 @@
 #include "DeviceHandlers.h"
 #include "EepromManager.h"
 
+
+//   IPAddress localIp = getStoredIpAddress();
+
 WiFiServer server(LOCAL_SERVER_PORT);
 WebSocketsClient webSocket;
 
 void setupWiFi() {
-  IPAddress localIp = getStoredIpAddress();
-
-  if (!WiFi.config(localIp, GATEWAY, SUBNET, DNS1, DNS2)) {
+  String ssid = getStoredSSID();
+  String password = getStoredPassword();
+  
+  if (!WiFi.config(LOCAL_IP_DEFAULT, GATEWAY, SUBNET, DNS1, DNS2)) {
     Serial.println("Failed to configure static IP");
   }
 
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  WiFi.begin(ssid, password);
   Serial.println("Connecting to the WiFi network...");
 
   unsigned long startAttemptTime = millis();
@@ -36,6 +40,10 @@ void setupWiFi() {
     setupWebSocket(webSocket);
   } else {
     Serial.println("Could not connect to the WiFi network");
+    resetToDefaultSettings();
+    Serial.println("Reiniciando a configuracion por defecto");
+    delay(100);
+    ESP.restart();
   }
 }
 

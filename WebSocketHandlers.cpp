@@ -56,6 +56,37 @@ void handleUnknownCommand(const String& message) {
   Serial.println("Unrecognized message: " + message);
 }
 
+void handleChangeWifiCredentials(const String& message) {
+  int separatorIndex = message.indexOf(":");
+
+  if (separatorIndex == -1) {
+    Serial.println("❌ Formato incorrecto, se esperaba 'SSID:Password'");
+    return;
+  }
+
+  String ssid = message.substring(0, separatorIndex);
+  String password = message.substring(separatorIndex + 1);
+
+  ssid.trim();
+  password.trim();
+
+  Serial.println("SSID: " + ssid);
+  Serial.println("PASSWORD: " + password);
+
+  storeSSID(ssid);
+  storePassword(password);
+
+  Serial.println("✅ Credenciales guardadas en EEPROM. Reiniciando...");
+  delay(1000);  // Esperar un segundo antes de reiniciar
+
+  ESP.restart();
+}
+
+void handleDeaultValues(const String& message) {
+  initializeDeviceSettings();
+  ESP.restart();
+}
+
 // Tabla de comandos para WebSocket
 std::map<String, std::function<void(const String&)>> wsCommandHandlers = {
   { "reboot-g", [](const String& params) {
@@ -66,6 +97,12 @@ std::map<String, std::function<void(const String&)>> wsCommandHandlers = {
    } },
   { "activate", [](const String& params) {
      handleActivate(params);
+   } },
+  { "cwc", [](const String& params) {
+     handleChangeWifiCredentials(params);
+   } },
+  { "dfv", [](const String& params) {
+     handleDeaultValues(params);
    } }
 };
 
