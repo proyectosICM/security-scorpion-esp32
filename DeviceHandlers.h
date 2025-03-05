@@ -5,5 +5,5 @@
 #include <EEPROM.h>
 
 void deviceActivated();
-
+void deviceChangeWifiCredentials(const String& message);
 #endif

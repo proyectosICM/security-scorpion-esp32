@@ -22,7 +22,7 @@ void updateDeviceConfig() {
       DynamicJsonDocument doc(1024);
       DeserializationError error = deserializeJson(doc, payload);
       if (error) {
-        Serial.println("Error deserializing JSON: " + String(error.c_str()));
+        Serial.println("❌ Error deserializing JSON: " + String(error.c_str()));
         return;
       }
 
@@ -42,17 +42,47 @@ void updateDeviceConfig() {
         storeDeviceName(apiNameDevice);
         storeIpAddress(apiIp);
 
-        Serial.println("Configuration updated from the API. Restarting...");
+        Serial.println("🔄 Configuration updated from the API. Restarting...");
 
+        Serial.println("📌 Nombre de dispositivo actualizado: " + apiNameDevice);
+        Serial.println("🌐 IP: " + apiIp);
         ESP.restart();
       } else {
-        Serial.println("Device configuration is up to date.");
+        Serial.println("✅ Device configuration is up to date.");
       }
     } else {
-      Serial.println("Error retrieving data from the API. Continuing with normal operation.");
+      Serial.println("⚠️ Error retrieving data from the API. Continuing with normal operation.");
     }
-    http.end();  
+    http.end();
   } else {
-    Serial.println("No WiFi connection. Continuing with normal operation.");
+    Serial.println("📶❌No WiFi connection. Continuing with normal operation.");
   }
+}
+
+void sendIPToAPI(String ip) {
+  HTTPClient http;
+
+  // Construcción de la URL con el ID del dispositivo en la ruta
+  String url = String(API_DEVICES_PATH) + "/register-ip/" + String(ID_DEVICE);
+
+  Serial.print("🌍 Enviando IP a la API: ");
+  Serial.println(url);
+
+  http.begin(url);
+  http.addHeader("Content-Type", "application/json");
+
+  // El payload ahora solo enviará la IP, ya que el ID está en la URL
+  String payload = "{\"ipLocal\": \"" + ip + "\"}";
+
+  int httpResponseCode = http.PUT(payload);
+
+  if (httpResponseCode > 0) {
+    Serial.print("✅ Respuesta de la API: ");
+    Serial.println(httpResponseCode);
+  } else {
+    Serial.print("❌ Error al enviar la IP: ");
+    Serial.println(http.errorToString(httpResponseCode).c_str());
+  }
+
+  http.end();
 }

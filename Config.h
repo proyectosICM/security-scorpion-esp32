@@ -18,11 +18,19 @@
 #define ID_DEVICE 1L
 #define NAME_DEVICE_DEFAULT "Device-Z"
 #define LOCAL_IP_DEFAULT IPAddress(192, 168, 1, 100)
-#define LOCAL_IP_DEFAULT2 IPAddress(192, 168, 0, 100)
 
 // WiFi Configuration
-#define WIFI_SSID_DEFAULT "www.icm.com"
-#define WIFI_PASSWORD_DEFAULT "Dakar*2024"
+//#define WIFI_SSID_DEFAULT "www.icm.com"
+//#define WIFI_PASSWORD_DEFAULT "Dakar*2024"
+
+#define WIFI_SSID_DEFAULT "GeoGuard2"
+#define WIFI_PASSWORD_DEFAULT "12345678"
+
+//#define WIFI_SSID_DEFAULT "ICM_5G"
+//#define WIFI_PASSWORD_DEFAULT "Dakar*2024"
+
+//#define WIFI_SSID_DEFAULT "ICM"
+//#define WIFI_PASSWORD_DEFAULT "Dakar*2024"
 
 #define GATEWAY IPAddress(192, 168, 1, 1)
 #define GATEWAY2 IPAddress(192, 168, 0, 1)

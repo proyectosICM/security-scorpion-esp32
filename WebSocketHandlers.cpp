@@ -17,7 +17,7 @@ void handleRebootGlobal(const String& param) {
     digitalWrite(LED_YELLOW, HIGH);
     delay(500);
     digitalWrite(LED_YELLOW, LOW);
-    ESP.restart();
+    ESP.restart();    
   } else {
     Serial.println("Invalid parameter for global reboot: " + param);
   }
@@ -57,29 +57,7 @@ void handleUnknownCommand(const String& message) {
 }
 
 void handleChangeWifiCredentials(const String& message) {
-  int separatorIndex = message.indexOf(":");
-
-  if (separatorIndex == -1) {
-    Serial.println("❌ Formato incorrecto, se esperaba 'SSID:Password'");
-    return;
-  }
-
-  String ssid = message.substring(0, separatorIndex);
-  String password = message.substring(separatorIndex + 1);
-
-  ssid.trim();
-  password.trim();
-
-  Serial.println("SSID: " + ssid);
-  Serial.println("PASSWORD: " + password);
-
-  storeSSID(ssid);
-  storePassword(password);
-
-  Serial.println("✅ Credenciales guardadas en EEPROM. Reiniciando...");
-  delay(1000);  // Esperar un segundo antes de reiniciar
-
-  ESP.restart();
+  deviceChangeWifiCredentials(message);
 }
 
 void handleDeaultValues(const String& message) {

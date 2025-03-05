@@ -17,6 +17,8 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   setupWiFi();
   updateDeviceConfig();
+  Serial.println("G + " + getStoredSSID());
+  Serial.println(" P + " + getStoredPassword());
 }
 
 void loop() {

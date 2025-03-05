@@ -13,5 +13,7 @@ void setupWiFi();
 WiFiServer& getServer();
 void setupWebSocket(WebSocketsClient& webSocket);
 void handleWebSocket(WebSocketsClient& webSocket);
-
+bool waitForConnection(unsigned long timeout);
+void sendIPToAPI(String ip);
+void startServer();
 #endif

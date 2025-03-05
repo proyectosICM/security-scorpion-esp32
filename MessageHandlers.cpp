@@ -14,8 +14,13 @@ void handleIsConnect(WiFiClient& client) {
   digitalWrite(LED_GREEN, LOW);
 }
 
-void handleReboot(WiFiClient& client) {
-  Serial.println("Rebooting device...");
+void handleDisconnect(WiFiClient& client) {
+  client.stop();
+  Serial.println("Client disconnected");
+}
+
+void handleRestart(WiFiClient& client) {
+  Serial.println("Restarting device...");
   digitalWrite(LED_YELLOW, HIGH);
   delay(500);
   digitalWrite(LED_YELLOW, LOW);
@@ -37,11 +42,6 @@ void handleGetName(WiFiClient& client) {
 void handleActivated(WiFiClient& client) {
   deviceActivated();
   Serial.println("Localmente");
-  client.stop();
-  Serial.println("Client disconnected");
-}
-
-void handleDisconnect(WiFiClient& client) {
   client.stop();
   Serial.println("Client disconnected");
 }
@@ -113,6 +113,17 @@ void handleEditConfig(WiFiClient& client, String& message) {
   client.stop();
 }
 
+void handleChangeWifiCredentials(WiFiClient& client, const String& message) {
+  int firstColon = message.indexOf(':');
+  if (firstColon != -1) {
+    String newMessage = message.substring(firstColon + 1);
+    deviceChangeWifiCredentials(newMessage);
+    Serial.println(newMessage);
+  } else {
+    Serial.println("Error: formato incorrecto en el mensaje recibido");
+  }
+}
+
 
 void handleUnknown(WiFiClient& client) {
   client.println("Unknown");
@@ -144,6 +155,8 @@ void handleClient() {
 
         if (message.startsWith("editConfig")) {
           handleEditConfig(client, message);
+        } else if (message.startsWith("cwc")) {
+          handleChangeWifiCredentials(client, message);
         } else {
           auto handler = messageHandlers.find(message);
           if (handler != messageHandlers.end()) {
