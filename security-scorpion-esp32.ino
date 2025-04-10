@@ -15,13 +15,15 @@ void setup() {
 
   pinMode(RESTART_BUTTON_PIN, INPUT_PULLUP);
   pinMode(LED_PIN, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
+  pinMode(LED_RED, OUTPUT);
   setupWiFi();
   updateDeviceConfig();
-  Serial.println("G + " + getStoredSSID());
-  Serial.println(" P + " + getStoredPassword());
+  //webSocket.onEvent(webSocketEvent);
 }
 
 void loop() {
   handleClient();
-  handleWebSocket(webSocket);
+  handleWebSocket(webSocketClient);
+  checkAutoDisable();
 }

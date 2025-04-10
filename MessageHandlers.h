@@ -13,6 +13,7 @@ void handleDisconnect(WiFiClient& client);
 void handleRestart(WiFiClient& client);
 void handleGetName(WiFiClient& client);
 void handleActivated(WiFiClient& client);
+void handleDisabled(WiFiClient& client);
 void handleEditConfig(WiFiClient& client, String& message);
 void handleUnknown(WiFiClient& client);
 

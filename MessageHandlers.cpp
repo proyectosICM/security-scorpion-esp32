@@ -41,9 +41,13 @@ void handleGetName(WiFiClient& client) {
 
 void handleActivated(WiFiClient& client) {
   deviceActivated();
-  Serial.println("Localmente");
   client.stop();
-  Serial.println("Client disconnected");
+
+}
+
+void handleDisabled(WiFiClient& client) {
+  deviceDisabled();
+  client.stop();
 }
 
 void handleEditConfig(WiFiClient& client, String& message) {
@@ -136,10 +140,11 @@ void handleUnknown(WiFiClient& client) {
 
 std::map<String, std::function<void(WiFiClient&)>> messageHandlers = {
   { "isConnected", handleIsConnect },
-  { "reboot", handleReboot },
+  { "restart", handleRestart },
   { "getId", handleGetId },
   { "getName", handleGetName },
   { "activate", handleActivated },
+  { "deactivate", handleDisabled },
   { "disconnect", handleDisconnect }
 };
 

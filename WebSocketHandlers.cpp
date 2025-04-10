@@ -5,6 +5,7 @@
 #include <map>
 #include <functional>
 #include "EepromManager.h"
+#include <WiFiConfig.h>
 
 bool isValidId(const String& idString, long& receivedID) {
   receivedID = idString.toInt();
@@ -17,7 +18,7 @@ void handleRebootGlobal(const String& param) {
     digitalWrite(LED_YELLOW, HIGH);
     delay(500);
     digitalWrite(LED_YELLOW, LOW);
-    ESP.restart();    
+    ESP.restart();
   } else {
     Serial.println("Invalid parameter for global reboot: " + param);
   }
@@ -49,8 +50,29 @@ void handleActivate(const String& idString) {
   if (receivedID == ID_DEVICE) {
     deviceActivated();
     Serial.println("Device activated remotely.");
+
+    String response = "ac:" + String(ID_DEVICE) + ":activated:successfully";
+    webSocketClient.sendTXT(response);
   }
 }
+
+void handleDisable(const String& idString) {
+  long receivedID = idString.toInt();
+
+  if (!isValidId(idString, receivedID)) {
+    Serial.println("Received invalid ID: " + idString);
+    return;
+  }
+
+  if (receivedID == ID_DEVICE) {
+    deviceDisabled();
+    Serial.println("Device disabled remotely.");
+
+    String response = "ac:" + String(ID_DEVICE) + ":disabled:successfully";
+    webSocketClient.sendTXT(response);
+  }
+}
+
 
 void handleUnknownCommand(const String& message) {
   Serial.println("Unrecognized message: " + message);
@@ -75,6 +97,9 @@ std::map<String, std::function<void(const String&)>> wsCommandHandlers = {
    } },
   { "activate", [](const String& params) {
      handleActivate(params);
+   } },
+  { "deactivate", [](const String& params) {
+     handleDisable(params);
    } },
   { "cwc", [](const String& params) {
      handleChangeWifiCredentials(params);

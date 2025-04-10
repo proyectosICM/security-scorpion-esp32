@@ -23,6 +23,7 @@ void updateDeviceConfig() {
       DeserializationError error = deserializeJson(doc, payload);
       if (error) {
         Serial.println("❌ Error deserializing JSON: " + String(error.c_str()));
+        blinkLED(LED_RED, 2, 300);
         return;
       }
 
@@ -45,16 +46,22 @@ void updateDeviceConfig() {
         Serial.println("🔄 Configuration updated from the API. Restarting...");
 
         Serial.println("📌 Nombre de dispositivo actualizado: " + apiNameDevice);
+        delay(100);
+        blinkLED(LED_GREEN, 2, 500);
         Serial.println("🌐 IP: " + apiIp);
         ESP.restart();
       } else {
         Serial.println("✅ Device configuration is up to date.");
       }
     } else {
+      delay(100);
+      blinkLED(LED_RED, 2, 500);
       Serial.println("⚠️ Error retrieving data from the API. Continuing with normal operation.");
     }
     http.end();
   } else {
+    delay(100);
+    blinkLED(LED_RED, 3, 500);
     Serial.println("📶❌No WiFi connection. Continuing with normal operation.");
   }
 }
@@ -66,7 +73,7 @@ void sendIPToAPI(String ip) {
   String url = String(API_DEVICES_PATH) + "/register-ip/" + String(ID_DEVICE);
 
   Serial.print("🌍 Enviando IP a la API: ");
-  Serial.println(url);
+  //Serial.println(url);
 
   http.begin(url);
   http.addHeader("Content-Type", "application/json");
@@ -77,9 +84,13 @@ void sendIPToAPI(String ip) {
   int httpResponseCode = http.PUT(payload);
 
   if (httpResponseCode > 0) {
+    delay(100);
+    blinkLED(LED_GREEN, 2, 500);
     Serial.print("✅ Respuesta de la API: ");
     Serial.println(httpResponseCode);
   } else {
+    delay(100);
+    blinkLED(LED_RED, 2, 500);
     Serial.print("❌ Error al enviar la IP: ");
     Serial.println(http.errorToString(httpResponseCode).c_str());
   }

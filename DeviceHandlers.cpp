@@ -4,11 +4,38 @@
 #include "Config.h"
 #include "EepromManager.h"
 
+unsigned long activationTime = 0;
+bool isActivated = false;
+
+void blinkLED(int pin, int times, int delayTime) {
+  for (int i = 0; i < times; i++) {
+    digitalWrite(pin, HIGH);  // Encender LED
+    delay(delayTime);
+    digitalWrite(pin, LOW);  // Apagar LED
+    delay(delayTime);
+  }
+}
+
 void deviceActivated() {
-  Serial.println("Dispositivo Accionado");
+  Serial.println("Dispositivo Activado");
+  blinkLED(LED_GREEN, 1, 2000);
   digitalWrite(LED_PIN, HIGH);
-  delay(5000);
+  isActivated = true;
+  activationTime = millis();
+}
+
+void deviceDisabled() {
+  Serial.println("Dispositivo Desactivado");
+  blinkLED(LED_GREEN, 1, 2000);
   digitalWrite(LED_PIN, LOW);
+  isActivated = false;
+}
+
+void checkAutoDisable() {
+  if (isActivated && millis() - activationTime >= 120000) {
+    deviceDisabled();
+    Serial.println("⏳ Desactivado automáticamente tras 2 minutos.");
+  }
 }
 
 void deviceChangeWifiCredentials(const String& message) {

@@ -7,31 +7,12 @@
 #include "DeviceHandlers.h"
 #include "EepromManager.h"
 
-
-//   IPAddress localIp = getStoredIpAddress();
-
 WiFiServer server(LOCAL_SERVER_PORT);
-WebSocketsClient webSocket;
+WebSocketsClient webSocketClient;
 
 void setupWiFi() {
   String ssid = getStoredSSID();
   String password = getStoredPassword();
-  // WIFI_SSID_DEFAULT
-  // WIFI_PASSWORD_DEFAULT
-
-  // Primer intento de conexión
-  Serial.println("🔄 Intentando conectar con la primera configuración de red...");
-  if (!WiFi.config(LOCAL_IP_DEFAULT, GATEWAY, SUBNET)) {
-    Serial.println("⚠️ Falló la configuración de la primera IP");
-  }
-  /*
-  WiFi.begin(WIFI_SSID_DEFAULT, WIFI_PASSWORD_DEFAULT);
-  if (waitForConnection(10000)) {
-    Serial.println("✅ Conexión exitosa con la primera configuración de red");
-    startServer();
-    return;
-  }
-*/
   Serial.println("\n");
 
   // Último intento: usar DHCP
@@ -40,20 +21,28 @@ void setupWiFi() {
   WiFi.begin(ssid, password);
   if (waitForConnection(35000)) {  // Mayor tiempo para DHCP
     Serial.println("✅ Conexión exitosa con DHCP");
+
+    Serial.print("📶 Conectado a la red: ");
+    Serial.println(WiFi.SSID());
+
     Serial.print("🌐 IP asignada por DHCP: ");
     Serial.println(WiFi.localIP());
+
     String ipAsignada = WiFi.localIP().toString();
     sendIPToAPI(ipAsignada);
+
     Serial.print("📡 IP del Router (Gateway): ");
     Serial.println(WiFi.gatewayIP());
-
+    blinkLED(LED_GREEN, 3, 500);
     startServer();
     return;
   }
 
   // Si ambas fallan, reinicia el dispositivo
   Serial.println("❌ No se pudo conectar a ninguna red. Reiniciando...");
-  //resetToDefaultSettings();
+  blinkLED(LED_RED, 3, 500);
+  //digitalWrite(LED_RED, HIGH);
+  resetToDefaultSettings();
   delay(100);
   ESP.restart();
 }
@@ -75,19 +64,19 @@ void startServer() {
   Serial.println(WiFi.localIP());
 
   server.begin();
-  setupWebSocket(webSocket);
+  setupWebSocket(webSocketClient);
 }
 
 WiFiServer& getServer() {
   return server;
 }
 
-void setupWebSocket(WebSocketsClient& webSocket) {
-  webSocket.begin(WEBSOCKET_SERVER_HOST, WEBSOCKET_SERVER_PORT, WEBSOCKET_PATH);
-  webSocket.onEvent(webSocketEvent);
-  webSocket.setReconnectInterval(5000);
+void setupWebSocket(WebSocketsClient& webSocketClient) {
+  webSocketClient.begin(WEBSOCKET_SERVER_HOST, WEBSOCKET_SERVER_PORT, WEBSOCKET_PATH);
+  webSocketClient.onEvent(webSocketEvent);
+  webSocketClient.setReconnectInterval(5000);
 }
 
-void handleWebSocket(WebSocketsClient& webSocket) {
-  webSocket.loop();
+void handleWebSocket(WebSocketsClient& webSocketClient) {
+  webSocketClient.loop();
 }

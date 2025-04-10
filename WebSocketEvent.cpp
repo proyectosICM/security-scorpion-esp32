@@ -10,8 +10,8 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
       //Serial.println("Disconnected! ws");
       break;
     case WStype_CONNECTED:
-      Serial.println("Connected to the server");
-      webSocket.sendTXT("Connection from ESP32 device!");
+      Serial.println("Connected to the ws-server");
+      webSocketClient.sendTXT("Connection from ESP32 device!");
       break;
     case WStype_TEXT:
       //Serial.printf("Message received (longitud %d): %s\n", length, payload);
